@@ -3,7 +3,6 @@ module Main exposing (..)
 import Html exposing (Html, div, h2, text, table, tr, th, td, thead, tbody)
 import Http
 import Json.Decode exposing (at, list, map2, field, string, int)
-import Plot exposing (..)
 
 
 main : Program Never Model Msg
