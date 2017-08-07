@@ -128,7 +128,9 @@ bars =
     groups
         (List.map
             (\category ->
-                group category.name [ (toFloat (abs category.amount)) / 100 ]
+                group category.name
+                    [ (toFloat (abs category.amount)) / 100
+                    ]
             )
         )
 
