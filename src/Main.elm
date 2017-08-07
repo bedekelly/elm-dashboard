@@ -47,6 +47,30 @@ main =
 -- View
 
 
+view : Model -> Html msg
+view model =
+    div [ id "page" ]
+        [ styles
+        , heading
+        , description
+        , contentView model
+        ]
+
+
+contentView : Model -> Html msg
+contentView model =
+    let
+        contents =
+            case model.categories of
+                [] ->
+                    [ h3 [] [ text "Loading..." ] ]
+
+                data ->
+                    [ barchart data, table data ]
+    in
+        div [ id "contents " ] contents
+
+
 headingText : Html msg
 headingText =
     text "Total Spending by Category"
@@ -99,29 +123,6 @@ styles =
     div [] (List.map stylesheet [ "style" ])
 
 
-view model =
-    div [ id "page" ]
-        [ styles
-        , heading
-        , description
-        , contentView model
-        ]
-
-
-contentView : Model -> Html msg
-contentView model =
-    let
-        contents =
-            case model.categories of
-                [] ->
-                    [ h3 [] [ text "Loading..." ] ]
-
-                data ->
-                    [ barchart data, table data ]
-    in
-        div [ id "contents " ] contents
-
-
 bars : Bars Categories msg
 bars =
     groups
@@ -162,7 +163,13 @@ categoryRow : Category -> Html msg
 categoryRow { name, amount } =
     tr []
         [ td [] [ text name ]
-        , td [] [ text <| (\x -> "£ " ++ x) <| toString <| (\x -> (x // 100)) <| -amount ]
+        , td []
+            [ -amount
+                |> (\amount -> amount // 100)
+                |> toString
+                |> (\amount -> "£ " ++ amount)
+                |> text
+            ]
         ]
 
 
@@ -184,7 +191,8 @@ loadData : Cmd Msg
 loadData =
     let
         url =
-            "https://fux7yt6bl8.execute-api.eu-west-2.amazonaws.com/prod/category"
+            "https://fux7yt6bl8.execute-api.eu-west-2.amazonaws.com/"
+                ++ "prod/category"
 
         request =
             Http.get url decodeData
