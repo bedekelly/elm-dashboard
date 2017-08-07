@@ -1,20 +1,10 @@
 module Main exposing (..)
 
-import Html exposing (Html, div, h1, h2, tbody, td, text, th, thead, tr, blockquote, em)
-import Html.Attributes exposing (style)
+import Html exposing (Html, blockquote, div, em, h1, h2, tbody, td, text, th, thead, tr, h3)
+import Html.Attributes exposing (href, rel, style, id, class)
 import Http
 import Json.Decode exposing (at, field, int, list, map2, string)
-import Plot
-    exposing
-        ( BarGroup
-        , Bars
-        , group
-        , groups
-        , histogram
-        , normalAxis
-        , viewBarsCustom
-        , viewBars
-        )
+import Plot exposing (BarGroup, Bars, defaultBarsPlotCustomizations, group, groups, histogram, normalAxis, viewBars, viewBarsCustom)
 
 
 -- Models and Messages
@@ -57,16 +47,6 @@ main =
 -- View
 
 
-headingStyle : List ( String, String )
-headingStyle =
-    [ ( "margin-left", "25px" ) ]
-
-
-tableStyle : List ( String, String )
-tableStyle =
-    [ ( "display", "inline-block" ), ( "margin-left", "20px" ), ( "margin-top", "10px" ) ]
-
-
 headingText : Html msg
 headingText =
     text "Total Spending by Category"
@@ -83,7 +63,7 @@ Elm-Plot library.
 
 heading : Html msg
 heading =
-    h1 [ style headingStyle ] [ headingText ]
+    h1 [] [ headingText ]
 
 
 description : Html msg
@@ -92,23 +72,54 @@ description =
 
 
 barchart : Categories -> Html msg
-barchart data =
-    div [] [ viewBarsCustom customizations bars data ]
+barchart allData =
+    let
+        data =
+            List.take 5 allData
+    in
+        viewBarsCustom customizations bars data
 
 
 table : Categories -> Html msg
 table data =
-    div [ style tableStyle ] [ list2Table data ]
+    list2Table data
 
 
-view : Model -> Html msg
+stylesheet : String -> Html msg
+stylesheet name =
+    Html.node "link"
+        [ rel "stylesheet"
+        , href ("static/css/" ++ name ++ ".css")
+        ]
+        []
+
+
+styles : Html msg
+styles =
+    div [] (List.map stylesheet [ "style" ])
+
+
 view model =
-    case model.categories of
-        [] ->
-            h2 [] [ text "Loading..." ]
+    div [ id "page" ]
+        [ styles
+        , heading
+        , description
+        , contentView model
+        ]
 
-        data ->
-            div [] [ heading, description, barchart data, table data ]
+
+contentView : Model -> Html msg
+contentView model =
+    let
+        contents =
+            case model.categories of
+                [] ->
+                    [ h3 [] [ text "Loading..." ] ]
+
+                data ->
+                    [ barchart data, table data ]
+    in
+        div [ id "contents " ] contents
 
 
 bars : Bars Categories msg
@@ -125,9 +136,9 @@ customizations : Plot.PlotCustomizations msg
 customizations =
     let
         cs =
-            Plot.defaultBarsPlotCustomizations
+            defaultBarsPlotCustomizations
     in
-        { cs | width = 2000, margin = { top = 0, right = 40, bottom = 40, left = 50 } }
+        { cs | width = 900 }
 
 
 list2Table : Categories -> Html msg

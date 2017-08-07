@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+
+* {
+  background-color: #fefffe;
+  font-family: 'Raleway', sans-serif;
+}
+
+table {
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 50px;
+  line-height: 1.5;
+}
+
+h1, h3 {
+  margin-left: 25px;
+}
+
+
+blockquote {
+  padding-bottom: 20px
+}
+
+
+#elm-plot {
+  padding-left: 30px;
+  display: inline-block;
+  min-width: 60%;
+}
