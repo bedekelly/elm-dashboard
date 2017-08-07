@@ -186,7 +186,7 @@ update msg model =
             ( Model cats, Cmd.none )
 
         DataLoaded (Err _) ->
-            ( model, Cmd.none )
+            ( model, loadData )
 
 
 loadData : Cmd Msg
