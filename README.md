@@ -13,4 +13,4 @@ This dashboard:
 
 One external library, [elm-plot](https://github.com/terezka/elm-plot) is used to display the bar chart.
 
-The data shown is retrieved from a serverless Monzo spending tracker. This spending tracker returns a nested, sorted JSON structure containing total amounts of money spent for each category.
+The data shown is retrieved from a spending tracker API hosted on Amazon Web Services. This spending tracker returns a nested, sorted JSON structure containing total amounts of money spent for each category.
