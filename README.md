@@ -1,6 +1,8 @@
 # Elm Dashboard
 #### A simple dashboard, written in Elm, to track expenditures
 
+#### _Try it out [here](http://elm-dashboard.s3-website.eu-west-2.amazonaws.com/)!_
+
 [Elm](http://elm-lang.org/) is a programming language which compiles to HTML and JavaScript. Elm's advantages include an intuitive functional reactive programming style, a no-runtime-error guarantee, and a time-travelling debugger.
 
 ![Elm Dashboard screenshot showing bar chart and tablular data](screenshot.png)
